@@ -1,31 +1,47 @@
 package com.example.tutoriallistview;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.os.Bundle;
 import android.view.Menu;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
+import android.widget.ListView;
 
 public class MainActivity extends Activity {
 
+	private ListView lv;
 	
+	private String[] listview_array = {"Eins" , "Zwei" , "Drei" , "Vier"};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		List valueList = new ArrayList<String>();
+		lv = (ListView) findViewById(R.id.listview);
 		
+		lv.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_expandable_list_item_1, listview_array));
 		
-		for (int i = 0; i < 10; i++)
-		{
-		valueList.add("value"+i);
+		lv.setTextFilterEnabled(true);
+		
+		lv.setOnItemClickListener(new OnItemClickListener() { 
+			@Override public void onItemClick(AdapterView<?> arg0, View v, int position, long id) { 
+			 AlertDialog.Builder adb = new AlertDialog.Builder( 
+			 MainActivity.this); 
+			 adb.setTitle("ListView OnClick"); 
+			 adb.setMessage("Selected Item is = " 
+			 +lv.getItemIdAtPosition(position)); 
+			 
+			// + lv.getItemAtPosition(position)); 
+			 adb.setPositiveButton("Ok", null); 
+			 adb.show(); } });
 		}
-	}
+		
+
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
